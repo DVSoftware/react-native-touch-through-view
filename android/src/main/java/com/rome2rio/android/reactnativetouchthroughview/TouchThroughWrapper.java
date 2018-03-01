@@ -14,36 +14,23 @@ import android.view.ViewGroup;
 
 public class TouchThroughWrapper extends ReactViewGroup implements ReactHitSlopView {
     private boolean lastTouchWasNotValid = false;
-
+    ReactContext context;
     public TouchThroughWrapper(ReactContext context) {
         super(context);
+        this.context = context;
         this.setActivityListener(context);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        return lastTouchWasNotValid;
-    }
-
-    private void setActivityListener(ReactContext context) {
         Activity activity = context.getCurrentActivity();
-        final ViewGroup viewGroup = this;
-
-        // if (activity instanceof TouchThroughTouchHandlerInterface) {
-            TouchThroughTouchHandlerInterface handlerInterface = (TouchThroughTouchHandlerInterface) activity;
-            handlerInterface.getTouchThroughTouchHandler().setListener(new TouchThroughTouchHandlerListener() {
-                @Override
-                void handleTouch(MotionEvent ev) {
-                    if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-                        int y = (int) ev.getY();
-                        System.out.println("" + y);
-                        lastTouchWasNotValid = isTouchingTouchThroughView(viewGroup, (int) ev.getX(), (int) ev.getY());
-                    }
-                }
-            });
-        // } else {
-            // throw new RuntimeException("TouchThroughTouchHandlerInterface was not set on app activity");
-        // }
+        ViewGroup viewGroup = this;
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            int y = (int) event.getY();
+            System.out.println("" + y);
+            lastTouchWasNotValid = isTouchingTouchThroughView(viewGroup, (int) event.getX(), (int) event.getY());
+        }
+        return lastTouchWasNotValid;
     }
 
     // Recursively find out if an absolute x/y position is hitting a child view and stop event
