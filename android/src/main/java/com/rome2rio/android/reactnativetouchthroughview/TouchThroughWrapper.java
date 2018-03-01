@@ -29,7 +29,7 @@ public class TouchThroughWrapper extends ReactViewGroup implements ReactHitSlopV
         Activity activity = context.getCurrentActivity();
         final ViewGroup viewGroup = this;
 
-        if (activity instanceof TouchThroughTouchHandlerInterface) {
+        // if (activity instanceof TouchThroughTouchHandlerInterface) {
             TouchThroughTouchHandlerInterface handlerInterface = (TouchThroughTouchHandlerInterface) activity;
             handlerInterface.getTouchThroughTouchHandler().setListener(new TouchThroughTouchHandlerListener() {
                 @Override
@@ -41,9 +41,9 @@ public class TouchThroughWrapper extends ReactViewGroup implements ReactHitSlopV
                     }
                 }
             });
-        } else {
-            throw new RuntimeException("TouchThroughTouchHandlerInterface was not set on app activity");
-        }
+        // } else {
+            // throw new RuntimeException("TouchThroughTouchHandlerInterface was not set on app activity");
+        // }
     }
 
     // Recursively find out if an absolute x/y position is hitting a child view and stop event
